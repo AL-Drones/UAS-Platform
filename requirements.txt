@@ -1,0 +1,9 @@
+Django>=4.2,<5.0
+psycopg2-binary>=2.9         # Driver do PostgreSQL
+djangorestframework>=3.14    # Para criar a API que o React vai consumir
+django-cors-headers>=4.0     # Permite que o Frontend fale com o Backend
+# Manteremos estas do seu projeto original para reaproveitar a lógica matemática:
+geopandas>=0.13
+shapely>=2.0
+fiona>=1.9
+simplekml>=1.3
