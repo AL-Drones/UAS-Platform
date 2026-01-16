@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  # Serviço da Aplicação Web (Django)
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app  # Sincroniza sua pasta local com o container (Hot-reload)
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - DEBUG=1
+      - SECRET_KEY=aldrones_secret_dev_key
+      # Configuração de conexão com o Banco
+      - DB_ENGINE=django.contrib.gis.db.backends.postgis
+      - DB_NAME=aldrones_db
+      - DB_USER=aldrones_user
+      - DB_PASSWORD=aldrones_pass
+      - DB_HOST=db
+      - DB_PORT=5432
+
+  # Serviço do Banco de Dados Espacial (PostGIS)
+  db:
+    image: postgis/postgis:15-3.3
+    volumes:
+      - postgres_data:/var/lib/postgresql/data # Persiste os dados mesmo se desligar
+    environment:
+      - POSTGRES_DB=aldrones_db
+      - POSTGRES_USER=aldrones_user
+      - POSTGRES_PASSWORD=aldrones_pass
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:
